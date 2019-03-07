@@ -23,6 +23,9 @@
       "arrow-parameter",
       "property-declaration",
       "member-variable-declaration"
-    ]
+    ],
+    "no-unnecessary-class": false,
+    "no-parameter-properties": false,
+    "insecure-random": false
   }
 }
