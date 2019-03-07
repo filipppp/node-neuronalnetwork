@@ -1,5 +1,5 @@
-import { Matrix } from './Matrix';
-import { Neuron } from './Neuron';
+import { Matrix } from "./Matrix";
+import { Neuron } from "./Neuron";
 
 export class Layer {
   public weights: Matrix[];
