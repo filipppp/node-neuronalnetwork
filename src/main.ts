@@ -1,21 +1,17 @@
-import { Matrix } from "./Matrix";
+import { Network } from "./Network";
+import { Layer } from "./Layer";
+import { ActivationFunction } from "./ActivationFunctions";
 
-const m1 = new Matrix(2, 3);
-const m2 = new Matrix(2, 3);
-m1.map(() => 1);
-m2.map(() => 3);
+// Test Neural Network
 
+const nn = new Network([
+  new Layer(2, ActivationFunction.relu()),
+  new Layer(3, ActivationFunction.sigmoid()),
+  new Layer(3, ActivationFunction.relu()),
+  new Layer(2, ActivationFunction.sigmoid()),
+]);
 
-m1.print();
-m1.add(m2);
-m1.print();
+console.log(nn.predict([4, 5]));
 
-/*
-console.table(m1.data);
-console.table(m2.data);
-
-
-m1.product(m2).print();
-*/
 
 debugger;

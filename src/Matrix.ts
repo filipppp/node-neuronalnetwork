@@ -6,17 +6,20 @@ export class Matrix {
     private rows: number,
     private cols: number
   ) {
+    // Set all weight values to zero
     this.data = Array.from({ length: this.rows }, () => Array.from({ length: this.cols }, () => 0));
   }
 
-  random() {
-    this.data = Array.from({ length: this.rows }, () => Array.from({ length: this.cols }, () => Math.random() * 2 - 1));
+  // Randomize every value of a matrix to a random number ranging from -1 to 1
+  random(): Matrix {
+    this.map(() => Math.random() * 2 - 1);
     return this;
   }
 
-  add(input: Matrix) {
+  add(input: Matrix): Matrix {
+    // Check if cols and rows from incoming matrix match with current matrix
     if (input.cols !== this.cols && input.rows !== this.rows) throw new Error("Cols and Rows don't match");
-    return this.map((value, row, col) => value + input[row][col]);
+    return this.map((value, row, col) => value + input.data[row][col]);
   }
 
   multiply(input: Matrix): Matrix {
@@ -38,7 +41,9 @@ export class Matrix {
       } else {
         throw new Error("Rows and Columns don't match. Operation not possible");
       }
-    } else {
+    } /*
+    TODO: Implement matrix dot product with arrays (matrix with just one col)
+    else {
       if (this.cols === input.length) {
         let result = [];
         for (let i = 0; i < this.rows; i++) {
@@ -46,14 +51,15 @@ export class Matrix {
           for (let j = 0; i < this.cols; j++) {
             sum += this.data[i][j] * input[j];
           }
-          result.push([sum]);
+          result.push(sum);
         }
-        return Matrix.fromArray(result);
+        return Matrix.from1DArray(result);
       }
-    }
+    }*/
     return undefined;
   }
 
+  // Map every value
   map(func: (value: number, row: number, col: number) => number): Matrix {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
@@ -63,13 +69,37 @@ export class Matrix {
     return this;
   }
 
-  print() {
-    console.table(this.data);
+  forEach(func: (value: number, row: number, col: number) => number) {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        func(this.data[i][j], i, j);
+      }
+    }
+    return this;
   }
 
-  static fromArray(array: any[][]) {
+  print() {
+    console.table(this.data);
+    console.trace();
+    return this;
+  }
+
+  to1DArray() {
+    if (this.cols !== 1) throw new Error("This Matrix can't be converted to a one dimensional Array");
+    let arr = [];
+    this.forEach(val => arr.push(val));
+    return arr;
+  }
+
+  static from2DArray(array: any[][]) {
     const mat = new Matrix(array.length, array[0].length);
     mat.data = array;
     return mat;
   }
+
+  static from1DArray(array: any[]) {
+    return new Matrix(array.length, 1)
+      .map((_, row) => array[row]);
+  }
+
 }

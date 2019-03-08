@@ -1,4 +1,4 @@
-import { Functions } from './Functions';
+import { Functions } from "./Functions";
 
 export class ActivationFunction {
   constructor(
@@ -9,22 +9,20 @@ export class ActivationFunction {
   ) {}
 
   public static sigmoid(): ActivationFunction {
-    return new ActivationFunction(Functions.sigmoid,
-      (num) => Functions.sigmoid(num) * (1 - Functions.sigmoid(num)));
+    return new ActivationFunction(Functions.sigmoid, Functions.Dsigmoid);
   }
 
- /* public static softmax(arr: number[]): ActivationFunction {
+ /* TODO: Implement softmax function
+  public static softmax(arr: number[]): ActivationFunction {
     return arr.map((value: number) => Math.exp(value) / arr.map((x: number) => Math.exp(x)).reduce((a: number, b: number) => a + b))
   } */
 
   public static identity(): ActivationFunction {
-    return new ActivationFunction(Functions.identity, () => 1);
+    return new ActivationFunction(Functions.identity, Functions.Didentity);
   }
 
   public static relu(): ActivationFunction {
-    return new ActivationFunction(Functions.relu, num => {
-      return num > 0 ? 1 : 0;
-    });
+    return new ActivationFunction(Functions.relu, Functions.Drelu);
   }
 
 }
