@@ -6,34 +6,60 @@ export class Matrix {
     private rows: number,
     private cols: number
   ) {
+  }
+
+  random() {
     this.data = Array.from({ length: this.rows }, () => Array.from({ length: this.cols }, () => Math.random() * 2 - 1));
-    console.table(this.data);
+    return this;
   }
 
 
-  product(input: Matrix | any[]): Matrix {
+  multiply(input: Matrix): Matrix {
+    return this.map((value, row, col) => value * input.data[row][col]);
+  }
+
+  product(input: Matrix | any[]): Matrix | undefined {
     if (input instanceof Matrix) {
-      this.map((value, row, col) => value * input.data[row][col]);
-    }
-    console.log(typeof input);
-    let returnValue = [];
-    for (let i = 0; i < this.data.length; i++) {
-      let temp = [];
-      let sum = 0;
-      for (let j = 0; i < this.data[i].length; j++) {
-        temp.push();
+      if (this.cols === input.rows) {
+        return new Matrix(this.rows, input.cols)
+          .random()
+          .map((_, i, j) => {
+            let sum = 0;
+            for (let k = 0; k < this.cols; k++) {
+              sum += this.data[i][k] * input.data[k][j];
+            }
+            return sum;
+          });
+      } else {
+        throw new Error("Rows and Columns don't match. Operation not possible");
       }
-      returnValue.push(temp);
+    } else {
+      if (this.cols === input.length) {
+        let result = [];
+        for (let i = 0; i < this.rows; i++) {
+          let sum = 0;
+          for (let j = 0; i < this.cols; j++) {
+            sum += this.data[i][j] * input[j];
+          }
+          result.push([sum]);
+        }
+        return Matrix.fromArray(result);
+      }
     }
-    return Matrix.fromArray(returnValue);
+    return undefined;
   }
 
-  map(func: (value: number, row: number, col: number) => number): void {
-    for (let i = 0; i < this.data.length; i++) {
-      for (let j = 0; i < this.data[i].length; j++) {
+  map(func: (value: number, row: number, col: number) => number): Matrix {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
         this.data[i][j] = func(this.data[i][j], i, j);
       }
     }
+    return this;
+  }
+
+  print() {
+    console.table(this.data);
   }
 
   static fromArray(array: any[][]) {
@@ -41,11 +67,4 @@ export class Matrix {
     mat.data = array;
     return mat;
   }
-
-  set data(value: number[][]) {
-    this.data = value;
-  }
-
-  get(data)
-
 }
