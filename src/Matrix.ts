@@ -6,6 +6,7 @@ export class Matrix {
     private rows: number,
     private cols: number
   ) {
+    this.data = Array.from({ length: this.rows }, () => Array.from({ length: this.cols }, () => 0));
   }
 
   random() {
@@ -13,6 +14,10 @@ export class Matrix {
     return this;
   }
 
+  add(input: Matrix) {
+    if (input.cols !== this.cols && input.rows !== this.rows) throw new Error("Cols and Rows don't match");
+    return this.map((value, row, col) => value + input[row][col]);
+  }
 
   multiply(input: Matrix): Matrix {
     return this.map((value, row, col) => value * input.data[row][col]);

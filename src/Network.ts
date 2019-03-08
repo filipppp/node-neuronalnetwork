@@ -12,10 +12,13 @@ export class Network {
 
   }
 
-  predict() {
-    for (let i = 1; i < this.layers.length; i++) {
-      for (let j = 0; j < this.layers[i].neurons.length; j++) {
-        this.layers[i].weights[j].product(this.layers[i - 1].neurons);
+  predict(inputs: number[]) {
+    if (inputs.length === this.layers[0].nodeCount) {
+      for (let i = 1; i < this.layers.length; i++) {
+        this.layers[i].neurons = this.layers[i].weights
+          .product(this.layers[i - 1].neurons)
+          .add(this.layers[i].biases)
+          .map(this.layers[i].activationFunction.activationFunc);
       }
     }
   }
