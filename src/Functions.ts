@@ -2,8 +2,8 @@ export class Functions {
   public static sigmoid(num: number): number {
     return 1 / (1 + Math.E ** -num);
   }
-  public static Dsigmoid(num) {
-    return Functions.sigmoid(num) * (1 - Functions.sigmoid(num));
+  public static Dsigmoid(num: number) {
+    return num * (1 - num);
   }
 
   public static softmax(arr: number[]): number[] {

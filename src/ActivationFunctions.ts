@@ -1,15 +1,22 @@
 import { Functions } from "./Functions";
 
+export  enum Activation {
+  sigmoid,
+  relu,
+  identity
+}
+
 export class ActivationFunction {
   constructor(
     /*public activationFunc: (num: number | number[]) => number[] | number,
     public derivFunc: (num: number) => number[] | number,*/
     public activationFunc: (num: number) => number,
     public derivFunc: (num: number) => number,
+    public type: Activation
   ) {}
 
   public static sigmoid(): ActivationFunction {
-    return new ActivationFunction(Functions.sigmoid, Functions.Dsigmoid);
+    return new ActivationFunction(Functions.sigmoid, Functions.Dsigmoid, Activation.sigmoid);
   }
 
  /* TODO: Implement softmax function
@@ -18,11 +25,11 @@ export class ActivationFunction {
   } */
 
   public static identity(): ActivationFunction {
-    return new ActivationFunction(Functions.identity, Functions.Didentity);
+    return new ActivationFunction(Functions.identity, Functions.Didentity, Activation.identity);
   }
 
   public static relu(): ActivationFunction {
-    return new ActivationFunction(Functions.relu, Functions.Drelu);
+    return new ActivationFunction(Functions.relu, Functions.Drelu, Activation.relu);
   }
 
 }
