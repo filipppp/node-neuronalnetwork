@@ -42,7 +42,6 @@
     "no-eval": false,
     "no-in-operator": true,
     "no-increment-decrement": true,
-    "no-inferrable-types": true,
     "no-internal-module": true,
     "no-null-keyword": true,
     "no-switch-case-fall-through": true,

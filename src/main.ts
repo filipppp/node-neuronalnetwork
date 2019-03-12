@@ -22,10 +22,10 @@ async function run() {
     new Layer(2, ActivationFunction.sigmoid()),
     new Layer(2, ActivationFunction.sigmoid()),
     new Layer(1, ActivationFunction.sigmoid()),
-  ], 0.05);
+  ], 0.1, 100);
 
 
-  for (let i = 0; i < 100000; i++) {
+  for (let i = 0; i < 20000; i++) {
     let random = Math.random();
     if (random < 0.25) {
       nn.train([0, 0], [0]);
